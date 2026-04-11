@@ -89,4 +89,28 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertNotIn('Купить павлиньи перья', page_text)
         self.assertIn('Купить молоко', page_text)
 
-        self.fail('Закончить тест!')
+        # self.fail('Закончить тест!')
+
+    def test_layout_and_styling(self):
+        """Тест макета и стилевого оформления."""
+        # Пользоваатель лткрывает домашнюю страницу
+        self.browser.get(self.live_server_url)
+        self.browser.set_window_size(1024, 678)
+
+        inputbox = self.browser.find_element(By.ID, 'id_new_item')
+        self.assertAlmostEqual(
+            inputbox.location['x'] + inputbox.location['y'] / 2,
+            512,
+            delta=10
+            )
+        
+        inputbox.send_keys('testing')
+        inputbox.send_keys(Keys.ENTER)
+        self.wait_for_row_in_list_table('1: testing')
+        inputbox = self.browser.find_element(By.ID, 'id_new_item')
+        self.assertAlmostEqual(
+            inputbox.location['x'] + inputbox.location['width'] / 2,
+            512,
+            delta=10
+            )
+
