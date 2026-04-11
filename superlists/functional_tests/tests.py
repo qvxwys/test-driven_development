@@ -1,3 +1,4 @@
+import os
 import time
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
@@ -14,6 +15,9 @@ class NewVisitorTest(StaticLiveServerTestCase):
     def setUp(self):
         """Initialize Chrome WebDriver."""
         self.browser = webdriver.Chrome()
+        staging_server = os.environ.get('STAGING_SERVER')
+        if staging_server:
+            self.live_server_url = 'http://' + staging_server
 
     def wait_for_row_in_list_table(self, row_text):
         """Ожидание строки в таблице списка."""
